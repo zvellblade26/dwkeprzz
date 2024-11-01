@@ -1,6 +1,0 @@
-
-# /dev/sda3 (C:/)
-/dev/sda3 /home/$user/windows ntfs-3g defaults,noauto,x-systemd.automount,x-systemd.idle-timeout=60,windows_names,uid=1000,gid=1000,umask=0022,fmask=0022 0 0
-
-# /dev/sdb3 (D:/)
-/dev/sdb3 /home/$user/DATA_D ntfs-3g defaults,noauto,x-systemd.automount,x-systemd.idle-timeout=60,windows_names,uid=1000,gid=1000,umask=0022,fmask=0022 0 0
