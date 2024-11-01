@@ -1,0 +1,68 @@
+#!/bin/sh
+
+moon() {
+	for i in {15..1}; do
+        brightnessctl -q s $i
+		sleep 0.01
+	done
+}
+
+sun() {
+	for i in {1..15}; do
+        brightnessctl -q s $i
+		sleep 0.01
+	done
+}
+
+process_checker() {
+    if pidof slock >/dev/null; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+mainprt=$(echo -e "Lockscreen\nSuspend\nShutdown\nReboot" | dmenu -i -p "Yeah bro?" )
+
+case $mainprt in
+    "Lockscreen")
+        dunstify "Locking." -r 1011 -u low -t 2000 &
+		sleep 2
+        moon
+		slock &
+        xset dpms force off
+        while process_checker; do
+            sleep 0.1
+        done
+        sun
+    ;;
+    "Suspend")
+        prt1=$(echo -e "No\n[YES]" | dmenu -i -p "We're Suspending?")
+        if [ $prt1 = [YES] ]; then
+			dunstify "Sleeping." -r 1011 -u low -t 2000 &
+			sleep 2
+			systemctl suspend
+        else
+            dunstify "Sleeping cancelled." -r 1011 -t 3000
+        fi
+    ;;
+    "Shutdown")
+        prt1=$(echo -e "No\n[YES]" | dmenu -i -p "We're shutting down?")
+        if [ $prt1 = [YES] ]; then
+			dunstify "Shutting Down." -r 1011 -u low -t 2000 &
+			sleep 2
+			shutdown now
+        else
+            dunstify "Shutdown cancelled." -r 1011 -t 3000
+	    fi
+    ;;
+    "Reboot")
+        prt1=$(echo -e "No\n[YES]" | dmenu -i -p "We're rebooting?")
+        if [ $prt1 = [YES] ]; then
+			dunstify "Rebooting." -r 1011 -u low -t 2000 &
+			sleep 2
+			systemctl reboot
+        else
+            dunstify "Reboot cancelled." -r 1011 -t 3000
+	    fi
+esac

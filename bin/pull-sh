@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# Refresh sudo privileges and keep them alive during the script execution
+sudo -v
+while true; do sudo -v; sleep 60; done &
+
+dir1="$HOME/workspace/dwkeprzz"
+dir2="$dir1/dwkevinm"
+dir4="$dir1/dotconfig"
+dir6="$dir1/bin"
+
+# Check if directories exist, create if necessary
+[ -d "$dir1" ] || mkdir -p "$dir1"
+[ -d "$dir2" ] || mkdir -p "$dir2"
+[ -d "$dir4" ] || mkdir -p "$dir4"
+[ -d "$dir6" ] || mkdir -p "$dir6"
+echo "directories ready"
+
+# Perform the backup
+cp -r $HOME/.config/{alacritty,dunst,nvim,fastfetch} "$dir4/" && echo "done config"
+rm "$dir4/nvim/lazy-lock.json" && echo "lazy-lock.json has been removed"
+
+cp "$HOME/.bashrc" "$dir1/bashrc" && echo "done bashrc"
+
+cp "$HOME/.xinitrc" "$dir1/xinitrc" && echo "done xinitrc"
+
+sudo cp -r "$HOME/dwm/"* "$dir2/" && echo "done SUCKLESS"
+
+sudo cp -r /usr/bin/*-sh "$dir6" && echo "Script Backed up"
+
+echo "Backup completed."

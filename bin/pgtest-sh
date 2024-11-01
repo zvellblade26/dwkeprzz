@@ -1,0 +1,138 @@
+#!/bin/sh
+
+# Network Utility Script
+# Provides Wi-Fi management and internet connectivity checking features
+# Usage: ./script-sh [command]
+# Commands:
+#   ping             - Check internet connectivity
+#   on               - Turn Wi-Fi on
+#   off              - Turn Wi-Fi off
+#   disconnect       - Disconnect Wi-Fi
+#   forgetall        - Forget all saved Wi-Fi networks
+#   menu             - Display the Wi-Fi management menu (default)
+
+# Constants
+NOTIF_ID=7287                  # Notification ID for consistency
+CONNECT_TIMEOUT=5              # Timeout for Wi-Fi connection attempts
+CHECK_TIMEOUT=2                # Timeout for internet connectivity check
+INTERFACE="wlp3s0"             # Wi-Fi interface (adjust if needed)
+
+# Display a notification
+notify() {
+    local message="$1"
+    local urgency="${2:-low}"
+    local timeout="${3:-3000}"
+    dunstify "$message" -r "$NOTIF_ID" -t "$timeout" -u "$urgency"
+}
+
+# Check internet connectivity by pinging a known server
+check_internet() {
+    notify "Checking for Internet access..." "normal" 5000
+    local start_time=$(date +%s.%N)
+
+    while true; do
+        if ping -c 1 8.8.8.8 > /dev/null 2>&1; then
+            notify "You have INTERNET access!"
+            return 0
+        fi
+        local elapsed=$(echo "$(date +%s.%N) - $start_time" | bc)
+        if (( $(echo "$elapsed >= $CHECK_TIMEOUT" | bc -l) )); then
+            notify "Internet is not accessible" "critical"
+            return 1
+        fi
+        sleep 0.2
+    done
+}
+
+# Connect to a Wi-Fi network with user-provided password
+connect_wifi() {
+    local ssid="$1"
+    local pass
+    pass=$(echo "" | dmenu -i -p "Password for $ssid: ")
+    if [[ -z "$pass" ]]; then
+        notify "No password entered. Connection canceled." "normal"
+        return 1
+    fi
+
+    if timeout "$CONNECT_TIMEOUT" nmcli d wifi connect "$ssid" password "$pass"; then
+        notify "$ssid is Connected"
+    else
+        notify "Failed to connect to $ssid (timeout)" "critical"
+    fi
+}
+
+# Forget a saved Wi-Fi network
+forget_wifi() {
+    local ssid="$1"
+    if nmcli c delete "$ssid"; then
+        notify "$ssid is Removed"
+    else
+        notify "Failed to remove $ssid" "critical"
+    fi
+}
+
+# Display the Wi-Fi management menu using dmenu
+wifi_menu() {
+    local options="Ping\nOn\nOff\nDisconnect\nClick and Die\np00\nForget All"
+    local choice
+    choice=$(echo -e "$options" | dmenu -i -p "Wi-Fi Menu:")
+
+    case "$choice" in
+        "Ping") check_internet ;;
+        "On") turn_wifi_on ;;
+        "Off") turn_wifi_off ;;
+        "Disconnect") disconnect_wifi ;;
+        "Forget All") forget_all ;;
+        "Click and Die"|"p00") wifi_submenu "$choice" ;;
+        *) notify "Invalid selection" "critical" ;;
+    esac
+}
+
+# Submenu for connecting to or forgetting a specified Wi-Fi network
+wifi_submenu() {
+    local ssid="$1"
+    local sub_options="Connect\nForget"
+    local sub_choice
+    sub_choice=$(echo -e "$sub_options" | dmenu -i -p "Options for $ssid:")
+
+    case "$sub_choice" in
+        "Connect") connect_wifi "$ssid" ;;
+        "Forget") forget_wifi "$ssid" ;;
+        *) notify "Invalid option selected" "critical" ;;
+    esac
+}
+
+# Turn Wi-Fi on
+turn_wifi_on() {
+    nmcli radio wifi on && notify "Wi-Fi Turned on" || notify "Failed to turn on Wi-Fi" "critical"
+}
+
+# Turn Wi-Fi off
+turn_wifi_off() {
+    nmcli radio wifi off && notify "Wi-Fi Turned off" || notify "Failed to turn off Wi-Fi" "critical"
+}
+
+# Disconnect from the Wi-Fi network
+disconnect_wifi() {
+    nmcli d disconnect "$INTERFACE" && notify "Wi-Fi Disconnected" || notify "Failed to disconnect Wi-Fi" "critical"
+}
+
+# Forget all saved Wi-Fi networks
+forget_all() {
+    local networks=("Click and Die" "p00")  # List of saved networks to forget
+    for ssid in "${networks[@]}"; do
+        forget_wifi "$ssid"
+    done
+    notify "All saved connections are forgotten"
+}
+
+# Main script logic
+case "$1" in
+    ping) check_internet ;;
+    on) turn_wifi_on ;;
+    off) turn_wifi_off ;;
+    disconnect) disconnect_wifi ;;
+    forgetall) forget_all ;;
+    menu|*) wifi_menu ;;  # Default to menu if no command is specified
+esac
+
