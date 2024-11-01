@@ -118,10 +118,6 @@ check_installed() {
 # Call the function with the list of packages
 check_installed "${packages_to_check[@]}"
 
-# At the end of the script, kill the background process to stop the loop
-echo "killing sudo -v"
-kill $SUDO_LOOP_PID
-echo "Done"
 
 echo "" >> "$HOME/.bash_profile"
 echo "startx" >> "$HOME/.bash_profile"
@@ -171,9 +167,14 @@ sudo systemctl daemon-reload || { echo "Failed to reload daemon"; exit 1; } >> "
 echo ""
 echo ""
 
+# At the end of the script, kill the background process to stop the loop
+echo "killing sudo -v"
+kill $SUDO_LOOP_PID
+echo "Done"
+
 
 echo ""
-echo "#####   Script completed successfully!   #####"
+
 
 #removing LEFTOVER directory
 echo "Do we Reboot? [Y/n]"
@@ -181,5 +182,5 @@ read ans
 if [[ "$ans" =~ ^[Yy]$ || "$ans" == "" ]]; then
 	sudo systemctl reboot
 else
-	echo "leaving FILES..."
+	echo "#####   Script completed successfully!   #####"
 fi
