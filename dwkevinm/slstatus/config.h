@@ -68,16 +68,18 @@ static const char unknown_str[] = "n/a";
 	/*{ datetime, "%s",           "%F %T" },*/
 /*};*/
 
-static const struct arg args[] = {
-	/* function format          argument */
-	{ cpu_perc,             " [ %s%% ]",     NULL },
-	{ ram_used,             "█[ %s ]",        NULL },	
-	{ datetime,				"█[ %s",		 "%A,  %d %B %Y ]█[ %I : %M : %S %p ] " },
-};
-
 //static const struct arg args[] = {
 //	/* function format          argument */
-//	{ cpu_perc,             " [  %s%% ]",     NULL },
-//	{ ram_used,             "█[  %s]",        NULL },	
-//	{ datetime,				"█[  %s",		   "%A,  %d %B %Y ]█[  %I : %M : %S %p ] " },
+//	{ cpu_perc,             " 󰆥 %s%% ]",     NULL },
+//	{ ram_used,             "-[ %s ]",       NULL },	
+//	{ datetime,				"-[ %s",		 "%A, %d %B %Y ]-[ %I : %M : %S %p 󰆥 " },
 //};
+
+static const struct arg args[] = {
+	/* function format          argument */
+	{ cpu_perc,             " %s%% █",     NULL },
+	{ ram_used,             "█ %s █",      NULL },	
+	{ datetime,				"█ %s",		   "%A, %d %B %Y ██ %I : %M : %S %p █" },
+	//{ battery_state, "%s"    , "BAT0" },
+	{ battery_perc,			" %s%% ",	   "BAT0" },
+};

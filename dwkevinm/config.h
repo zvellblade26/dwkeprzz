@@ -5,31 +5,32 @@ static const unsigned int borderpx  = 1;      /* border pixel of windows */
 static const unsigned int snap      = 26;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-/*static const char *fonts[]          = { "NBP Informa FiveSix:size=14:style=Regular", "NotoColorEmoji:pixelsize=16:antialias=true:autohint=true" };*/
-static const char *fonts[]          = { "JetBrains Mono NL:size=10:style=Bold", "NotoColorEmoji:pixelsize=16:antialias=true:autohint=true" };
-/*static const char dmenufont[]       = { "JetBrains Mono NL:size=16:style=Bold:pixelsize=16:antialias=true:autohint=true" };*/
-static const char dmenufont[]       = { "NBP Informa FiveSix:size=23:style=Bold:pixelsize=23:antialias=true:autohint=true" };
+//static const char *fonts[]          = { "NBP Informa FiveSix:size=14:style=Regular", "NotoColorEmoji:pixelsize=16:antialias=true:autohint=true" };
+//static const char *fonts[]          = { "JetBrains Mono NL:size=10:style=Bold", "NotoColorEmoji:pixelsize=16:antialias=true:autohint=true" };
+static const char *fonts[]          = { "JetBrainsMonoNL NFM SemiBold:size=10:style=SemiBold,Regular", "NotoColorEmoji:pixelsize=16:antialias=true:autohint=true" };
+//static const char dmenufont[]       = { "JetBrains Mono NL:size=16:style=Bold:pixelsize=16:antialias=true:autohint=true" };
+static const char dmenufont[]       = { "NBP Informa FiveSix:size=25:style=Regular:pixelsize=25:antialias=true:autohint=true" };
 
 static const char normbordercolor[]           = "#000000"; /*black*/
+static const char selbordercolor[]            = "#ededed"; /*white*/
 static const char normbgcolor[]               = "#b6b6b6"; /*grey*/
 static const char normfgcolor[]               = "#000000"; /*black*/
-static const char selbordercolor[]            = "#ededed"; /*white*/
 static const char selbgcolor[]                = "#ededed"; /*white*/
 static const char selfgcolor[]                = "#000000"; /*black*/
 
-/*static const char normbordercolor[]           = "#11ee06";*/ /*green*/
-/*static const char normbgcolor[]               = "#0861f9";*/ /*blue*/
-/*static const char normfgcolor[]               = "#f9f808";*/ /*yellow*/
-/*static const char selbordercolor[]            = "#ededed";*/ /*white*/
-/*static const char selbgcolor[]                = "#ededed";*/ /*white*/
-/*static const char selfgcolor[]                = "#e61b1b";*/ /*red*/
+//static const char normbordercolor[]           = "#11ee06"; /*green*/
+//static const char normbgcolor[]               = "#0861f9"; /*blue*/
+//static const char normfgcolor[]               = "#f9f808"; /*yellow*/
+//static const char selbordercolor[]            = "#ededed"; /*white*/
+//static const char selbgcolor[]                = "#ededed"; /*white*/
+//static const char selfgcolor[]                = "#e61b1b"; /*red*/
 
-/*static const char normbordercolor[]           = "#3B4252";*/
-/*static const char normbgcolor[]               = "#2E3440";*/
-/*static const char normfgcolor[]               = "#D8DEE9";*/
-/*static const char selbordercolor[]            = "#434C5E";*/
-/*static const char selbgcolor[]                = "#434C5E";*/
-/*static const char selfgcolor[]                = "#ECEFF4";*/
+//static const char normbordercolor[]           = "#3B4252";
+//static const char normbgcolor[]               = "#2E3440";
+//static const char normfgcolor[]               = "#D8DEE9";
+//static const char selbordercolor[]            = "#434C5E";
+//static const char selbgcolor[]                = "#434C5E";
+//static const char selfgcolor[]                = "#ECEFF4";
 
 static const char *colors[][3] = {
     /*               fg           bg           border   */
@@ -39,8 +40,8 @@ static const char *colors[][3] = {
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5" };
-/*static const char *tags[] = { "一", "二", "三", "四", "五" };*/
-/*static const char *tags[] = { "", "", "", "", "󰊖" };*/
+//static const char *tags[] = { "一", "二", "三", "四", "五" };
+//static const char *tags[] = { "", "", "", "", "󰊖" };
 
 static const Rule rules[] = {
 	/* class           instance    title       tags mask     isfloating   monitor */
@@ -48,7 +49,7 @@ static const Rule rules[] = {
 	{ "firefox",       NULL,       NULL,       1 << 1,       0,           -1 },
 	{ "libreoffice",   NULL,       NULL,       1 << 2,       0,           -1 },
 	{ "Thunar",        NULL,       NULL,       0,            1,           -1 },
-	{ "pavucontrol",   NULL,       NULL,       1 << 3,       1,           -1 },
+	{ "pavucontrol",   NULL,       NULL,       0,			 1,           -1 },
 };
 
 /* layout(s) */
@@ -72,9 +73,6 @@ static const Layout layouts[] = {
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
-/* helper for spawning shell commands in the pre dwm-5.0 fashion */
-/*#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }*/
-
 /* commands */
 static char dmenumon[2]       = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
@@ -86,7 +84,7 @@ static const char *power[]    = { "poweropt-sh", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_s,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ControlMask,           XK_p,      spawn,          {.v = ping } },
 	{ MODKEY,						XK_x,      spawn,          {.v = power} },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
@@ -102,17 +100,17 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY|ControlMask,           XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY|ControlMask,           XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY|ControlMask,           XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_space,  setlayout,      {0} },
+	//{ MODKEY|ControlMask,           XK_t,      setlayout,      {.v = &layouts[0]} },
+	//{ MODKEY|ControlMask,           XK_f,      setlayout,      {.v = &layouts[1]} },
+	//{ MODKEY|ControlMask,           XK_m,      setlayout,      {.v = &layouts[2]} },
+	//{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	//{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
+	//{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
+	//{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
+	//{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
+	//{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
