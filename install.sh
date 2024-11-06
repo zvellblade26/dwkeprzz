@@ -3,7 +3,7 @@
 echo "#####   1. CHECKING USER   #####"
 sleep 2;
 user=$(ls /home)
-echo "user is -----[   $user   ]-----??   [Y/n]"
+echo "user is -----[$user]-----??   [Y/n]"
 
 read ans
 if [[ "$ans" =~ ^[Yy]$ || "$ans" == "" ]]; then
