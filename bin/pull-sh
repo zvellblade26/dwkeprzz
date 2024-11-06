@@ -17,14 +17,14 @@ dir6="$dir1/bin"
 echo "directories ready"
 
 # Perform the backup
-cp -r $HOME/.config/{alacritty,dunst,nvim,fastfetch} "$dir4/" && echo "done config"
+cp -r $HOME/.config/{alacritty,dunst,nvim,fastfetch,pavucontrol.ini} "$dir4/" && echo "done config"
 rm "$dir4/nvim/lazy-lock.json" && echo "lazy-lock.json has been removed"
 
 cp "$HOME/.bashrc" "$dir1/bashrc" && echo "done bashrc"
 
 cp "$HOME/.xinitrc" "$dir1/xinitrc" && echo "done xinitrc"
 
-sudo cp -r "$HOME/dwm/"* "$dir2/" && echo "done SUCKLESS"
+sudo cp -r "$HOME/dwkevinm/"* "$dir2/" && echo "done SUCKLESS"
 
 sudo cp -r /usr/bin/*-sh "$dir6" && echo "Script Backed up"
 

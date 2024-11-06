@@ -32,7 +32,9 @@ check_internet() {
 
     while true; do
         if ping -c 1 8.8.8.8 > /dev/null 2>&1; then
-            notify "You have INTERNET access!"
+            # Get the SSID of the currently connected Wi-Fi network
+            local ssid=$(nmcli -t -f active,ssid dev wifi | grep '^yes' | cut -d: -f2)
+            notify "You have INTERNET access on Wi-Fi: ${ssid:-Unknown}!"
             return 0
         fi
         local elapsed=$(echo "$(date +%s.%N) - $start_time" | bc)
@@ -47,19 +49,32 @@ check_internet() {
 # Connect to a Wi-Fi network with user-provided password
 connect_wifi() {
     local ssid="$1"
-    local pass
-    pass=$(echo "" | dmenu -i -p "Password for $ssid: ")
-    if [[ -z "$pass" ]]; then
-        notify "No password entered. Connection canceled." "normal"
-        return 1
-    fi
 
-    if timeout "$CONNECT_TIMEOUT" nmcli d wifi connect "$ssid" password "$pass"; then
-        notify "$ssid is Connected"
+    # Check if the network is already saved
+    if nmcli c show "$ssid" > /dev/null 2>&1; then
+        # Connect using saved credentials if the network exists
+        if timeout "$CONNECT_TIMEOUT" nmcli c up "$ssid"; then
+            notify "$ssid is Connected"
+        else
+            notify "Failed to connect to $ssid (timeout)" "critical"
+        fi
     else
-        notify "Failed to connect to $ssid (timeout)" "critical"
+        # Prompt for password if not saved
+        local pass
+        pass=$(echo "" | dmenu -i -p "Password for $ssid: ")
+        if [[ -z "$pass" ]]; then
+            notify "No password entered. Connection canceled." "normal"
+            return 1
+        fi
+
+        if timeout "$CONNECT_TIMEOUT" nmcli d wifi connect "$ssid" password "$pass"; then
+            notify "$ssid is Connected"
+        else
+            notify "Failed to connect to $ssid (timeout)" "critical"
+        fi
     fi
 }
+
 
 # Forget a saved Wi-Fi network
 forget_wifi() {

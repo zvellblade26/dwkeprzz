@@ -26,12 +26,11 @@ alias grep="grep --color=auto"
 alias pac="sudo pacman"
 alias v="nvim"
 alias sv="sudoedit"
-alias w3mg="w3m google.com"
 
 alias ebrc="v ~/.bashrc"
 alias einitrc="v ~/.xinitrc"
 
-alias edw="cd '$HOME/dwm' && v ~/dwm/config.h"
+alias edw="cd '$HOME/dwkevinm' && v config.h"
 alias smci="sudo make clean install"
 
 alias da='date "+%Y-%m-%d %A %T %Z"'
@@ -163,5 +162,5 @@ export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
 
-PS1='  \[$(tput setaf 33)\]\w \[$(tput setaf 69)\] \[$(tput setaf 105)\]  \[$(tput setaf 141)\]'
+PS1='\[$(tput setaf 33)\]\w \[$(tput setaf 69)\] \[$(tput setaf 105)\]  \[$(tput setaf 141)\]'
 #        

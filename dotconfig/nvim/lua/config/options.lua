@@ -78,9 +78,9 @@ vim.opt.wildmode = "longest:full,full"
 vim.opt.winminwidth = 5
 vim.opt.foldlevel = 99
 
--- if vim.fn.has("nvim-0.10") == 1 then
---   opt.smoothscroll = true
--- end
+if vim.fn.has("nvim-0.10") == 1 then
+  vim.opt.smoothscroll = true
+end
 
 vim.cmd("set wildmenu")
 vim.cmd("filetype plugin on")

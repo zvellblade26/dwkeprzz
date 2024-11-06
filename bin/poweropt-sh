@@ -22,7 +22,7 @@ process_checker() {
     fi
 }
 
-mainprt=$(echo -e "Lockscreen\nSuspend\nShutdown\nReboot" | dmenu -i -p "Yeah bro?" )
+mainprt=$(echo -e "Lockscreen\nSuspend\nOFF\nReboot" | dmenu -i -p "Yeah bro?" )
 
 case $mainprt in
     "Lockscreen")
@@ -39,18 +39,32 @@ case $mainprt in
     "Suspend")
         prt1=$(echo -e "No\n[YES]" | dmenu -i -p "We're Suspending?")
         if [ $prt1 = [YES] ]; then
-			dunstify "Sleeping." -r 1011 -u low -t 2000 &
-			sleep 2
+			dunstify "Sleeping in 3" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Sleeping in 3." -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Sleeping in 3.." -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Sleeping in 3..." -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Sleeping in 3...2" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Sleeping in 3...2." -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Sleeping in 3...2.." -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Sleeping in 3...2..." -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Sleeping in 3...2...1" -r 1011 -u low -t 2000
 			systemctl suspend
         else
             dunstify "Sleeping cancelled." -r 1011 -t 3000
         fi
     ;;
-    "Shutdown")
+    "OFF")
         prt1=$(echo -e "No\n[YES]" | dmenu -i -p "We're shutting down?")
         if [ $prt1 = [YES] ]; then
-			dunstify "Shutting Down." -r 1011 -u low -t 2000 &
-			sleep 2
+			dunstify "Shutting down in 3" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Shutting down in 3." -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Shutting down in 3.." -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Shutting down in 3..." -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Shutting down in 3...2" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Shutting down in 3...2." -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Shutting down in 3...2.." -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Shutting down in 3...2..." -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Shutting down in 3...2...1" -r 1011 -u low -t 2000
 			shutdown now
         else
             dunstify "Shutdown cancelled." -r 1011 -t 3000
@@ -59,8 +73,15 @@ case $mainprt in
     "Reboot")
         prt1=$(echo -e "No\n[YES]" | dmenu -i -p "We're rebooting?")
         if [ $prt1 = [YES] ]; then
-			dunstify "Rebooting." -r 1011 -u low -t 2000 &
-			sleep 2
+			dunstify "Rebooting in 3" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Rebooting in 3." -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Rebooting in 3.." -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Rebooting in 3..." -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Rebooting in 3...2" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Rebooting in 3...2." -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Rebooting in 3...2.." -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Rebooting in 3...2..." -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "Rebooting in 3...2...1" -r 1011 -u low -t 2000
 			systemctl reboot
         else
             dunstify "Reboot cancelled." -r 1011 -t 3000
