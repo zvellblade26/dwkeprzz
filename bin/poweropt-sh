@@ -1,0 +1,92 @@
+#!/bin/sh
+moon() {
+	for i in {15..5}; do
+		brightnessctl -q s $i
+		sleep 0.01
+	done
+}
+sun() {
+	for i in {1..15}; do
+		brightnessctl -q s $i
+		sleep 0.01
+	done
+}
+process_checker() {
+	if pidof slock >/dev/null; then
+		return 0
+	else
+		return 1
+	fi
+}
+mainprt=$(echo -e "  Lockscreen\n  Suspend\n  Shutdown\n  Reboot" | dmenu -fn "JetBrainsMonoNL NFM ExtraBold:pixelsize=22" -l 4 -p "Yeah bro?" )
+case $mainprt in
+	"  Lockscreen")
+		dunstify "Locking." -r 1011 -u low -t 2000 &
+		moon
+		sleep 2
+		slock &
+		xset dpms force off
+		while process_checker; do
+			sleep 0.1
+		done
+		sun
+		;;
+	"  Suspend")
+		prt1=$(echo -e "[YES]\nNo" | dmenu -fn "JetBrainsMonoNL NFM ExtraBold:pixelsize=22" -p "We're Suspending?")
+		if [ $prt1 = [YES] ]; then
+			dunstify "$(printf 'Sleeping in\n3')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Sleeping in\n3.')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Sleeping in\n3..')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Sleeping in\n3...')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Sleeping in\n3...2')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Sleeping in\n3...2.')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Sleeping in\n3...2..')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Sleeping in\n3...2...')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Sleeping in\n3...2...1')" -r 1011 -u low -t 2000;
+			moon
+			systemctl suspend
+			xset dpms force off
+			while process_checker; do
+				sleep 0.1
+			done
+			sun
+		else
+			dunstify "Sleeping cancelled." -r 1011 -t 3000
+		fi
+		;;
+	"  Shutdown")
+		prt1=$(echo -e "[YES]\nNo" | dmenu -fn "JetBrainsMonoNL NFM ExtraBold:pixelsize=22" -p "We're shutting down?")
+		if [ $prt1 = [YES] ]; then
+			dunstify "$(printf 'Shutting down\n3')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Shutting down\n3.')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Shutting down\n3..')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Shutting down\n3...')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Shutting down\n3...2')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Shutting down\n3...2.')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Shutting down\n3...2..')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Shutting down\n3...2...')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Shutting down\n3...2...1')" -r 1011 -u low -t 2000;
+			moon
+			shutdown now
+		else
+			dunstify "Shutdown cancelled." -r 1011 -t 3000
+		fi
+		;;
+	"  Reboot")
+		prt1=$(echo -e "[YES]\nNo" | dmenu -fn "JetBrainsMonoNL NFM ExtraBold:pixelsize=22" -p "We're rebooting?")
+		if [ $prt1 = [YES] ]; then
+			dunstify "$(printf 'Reboot in\n3')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Reboot in\n3.')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Reboot in\n3..')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Reboot in\n3...')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Reboot in\n3...2')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Reboot in\n3...2.')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Reboot in\n3...2..')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Reboot in\n3...2...')" -r 1011 -u low -t 2000; sleep 0.2
+			dunstify "$(printf 'Reboot in\n3...2...1')" -r 1011 -u low -t 2000;
+			moon
+			systemctl reboot
+		else
+			dunstify "Reboot cancelled." -r 1011 -t 3000
+		fi
+esac

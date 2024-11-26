@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Define the battery name (commonly BAT0 or BAT1)
+BATTERY="BAT0"
+
+# Paths to battery info
+CAPACITY_PATH="/sys/class/power_supply/$BATTERY/capacity"
+STATUS_PATH="/sys/class/power_supply/$BATTERY/status"
+
+# Function to get battery percentage
+get_battery_percentage() {
+    if [[ -r "$CAPACITY_PATH" ]]; then
+        cat "$CAPACITY_PATH"
+    else
+        echo "N/A"
+    fi
+}
+
+# Function to get battery state (charging, discharging, etc.)
+get_battery_status() {
+    if [[ -r "$STATUS_PATH" ]]; then
+        case "$(cat "$STATUS_PATH")" in
+            "Charging") echo "" ;;
+            "Discharging") echo "󰚦" ;;
+            "Not charging") echo "❌" ;;
+            "Full") echo "⚡" ;;
+            *) echo "?" ;;
+        esac
+    else
+        echo "?"
+    fi
+}
+
+# Retrieve and display battery information
+BATTERY_PERCENTAGE=$(get_battery_percentage)
+BATTERY_STATUS=$(get_battery_status)
+echo "$BATTERY_PERCENTAGE%$BATTERY_STATUS"

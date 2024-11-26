@@ -1,0 +1,63 @@
+general.live_config_reload = true
+working_directory = "None"
+
+# Themes --
+general.import = [ 
+  "$HOME/.config/alacritty/nordic.toml",
+  "$HOME/.config/alacritty/solarized-osaka.toml",
+  "$HOME/.config/alacritty/keybinds.toml",
+  "$HOME/.config/alacritty/cyberdream.toml",
+]
+
+[window]
+title = "Alacritty"
+#decorations = "none"
+#option_as_alt = "Both"
+decorations = "Buttonless"
+blur = false
+#opacity = 9
+padding.x = 0
+padding.y = 0
+
+[window.dimensions]
+columns = 160
+lines = 80
+
+[cursor.style]
+shape= "Beam"
+blinking = "Never"
+
+[colors]
+transparent_background_colors = true
+draw_bold_text_with_bright_colors = true
+
+[env]
+TERM = "xterm-256color"
+
+#[font]
+#glyph_offset = { x = 1, y = 0 }
+#normal.family = "MesloLGL Nerd Font"
+#normal.style = "Regular"
+#size = 11.0
+#
+#[font.bold]
+#family = "MesloLGL Nerd Font"
+#style = "Bold"
+#
+#[font.italic]
+#family = "MesloLGL Nerd Font"
+#style = "Italic"
+
+[font]
+normal.family = "JetBrainsMonoNL NFM SemiBold"
+normal.style = "SemiBold,Regular"
+size = 14.0
+glyph_offset = { x = 1, y = 0 }
+
+[font.bold]
+family = "JetBrainsMonoNL NFM"
+style = "Bold"
+
+[font.italic]
+family = "JetBrainsMonoNL NFM SemiBold"
+style = "SemiBold Italic,Italic"

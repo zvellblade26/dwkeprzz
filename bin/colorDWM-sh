@@ -1,0 +1,29 @@
+#!/bin/bash
+user=$(ls /home)
+faillock --user $user --reset &&
+DWM_DIR="/home/$user/dwkevinm"
+COLORS_DIR="$DWM_DIR/colors"
+COLOR=$(ls "$COLORS_DIR" | dmenu -p "Choose colorscheme:")
+if [[ -z "$COLOR" ]]; then
+  dunstify "No colorscheme selected. Exiting."
+  exit 1
+fi
+PASSWORD=$(dmenu -p "Password for user [$user]" < /dev/null)
+if [[ -z "$PASSWORD" ]]; then
+  dunstify "No password entered. Exiting."
+  exit 1
+fi
+echo "$PASSWORD" | sudo -S rm -rf "$DWM_DIR/zcolors.h"
+if [[ -f "$COLORS_DIR/$COLOR" ]]; then
+	echo "$PASSWORD" | sudo -S ln -sf "$COLORS_DIR/$COLOR" "$DWM_DIR/zcolors.h"
+else
+	dunstify "Error: Color scheme files not found in $COLORS_DIR or $COLORS_DIR1"
+fi
+  dunstify "Links created successfully for $COLOR colorscheme." -r 8081
+cd "$DWM_DIR" || exit
+if echo "$PASSWORD" | sudo -S make clean install; then
+  dunstify -u low "DWM recompiled" "Switched to $COLOR colorscheme." -r 8081 -t 2000
+else
+  dunstify -u critical "DWM compilation failed." -t 10000
+  exit 1
+fi

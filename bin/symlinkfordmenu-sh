@@ -1,0 +1,18 @@
+#!/bin/bash
+app=(
+  "alacritty" "firefox" "libreoffice" "pavucontrol"
+  "thunar" "xfce4-screenshooter"
+)
+fdir="/usr/bin/"
+tdir="/usr/local/bin/"
+for i in "${app[@]}"; do
+  # Check if the executable exists in /usr/bin/
+  if [[ -f "$fdir/$i" ]]; then
+    # Create the symlink only if it doesn't exist
+    if [[ ! -e "$tdir/$i" ]]; then
+      sudo ln -sf "$fdir/$i" "$tdir"
+    fi
+  else
+    echo "$i not found in $fdir"
+  fi
+done

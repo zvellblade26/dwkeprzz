@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Define bookmarks as an associative array
+declare -A bkmarks=(
+    ["WhatsApp"]="https://web.whatsapp.com/"
+    ["YouTube"]="https://www.youtube.com/"
+    ["ClassRoom"]="https://classroom.google.com/u/1/h"
+    ["Google Keep"]="https://keep.google.com/"
+    ["ChatGPT"]="https://chat.openai.com/"
+    ["Grammar Checker"]="https://quillbot.com/grammar-check"
+    ["Translator"]="https://quillbot.com/translate"
+    ["LMS UHN MEDAN"]="https://lms.uhn.ac.id/login/index.php"
+    ["SISFO"]="https://akademik.uhn.ac.id/?mnux=login&lgn=frm&lid=120&nme=Mahasiswa"
+    ["Nerd Fonts"]="https://www.nerdfonts.com/cheat-sheet"
+    ["HTML Color Codes"]="https://htmlcolorcodes.com/"
+)
+
+# Prompt user with dmenu and capture selection
+selection=$(printf "%s\n" "${!bkmarks[@]}" | sort | dmenu -n)
+
+# If a selection is made
+if [[ -n $selection ]]; then
+    if [[ -v bkmarks["$selection"] ]]; then
+        # Open URL from bookmarks and trigger xdotool shortcut
+        xdg-open "${bkmarks[$selection]}" &
+        xdotool key super+2
+    else
+        # Handle queries for YouTube or general search
+        query=$(echo "$selection" | cut -d' ' -f2-)
+        if [[ "$selection" =~ ^[Yy] ]]; then
+            xdg-open "https://www.youtube.com/results?search_query=${query// /+}" &
+            xdotool key super+2
+        elif [[ "$selection" =~ ^[Gg] ]]; then
+            xdg-open "https://duckduckgo.com/?q=${query// /+}" &
+            xdotool key super+2
+        else
+            # Default to general search if input doesn't match predefined commands
+            xdg-open "https://duckduckgo.com/?q=${selection// /+}" &
+            xdotool key super+2
+        fi
+    fi
+fi
+

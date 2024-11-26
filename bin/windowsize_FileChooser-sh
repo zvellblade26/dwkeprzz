@@ -1,0 +1,27 @@
+#!/bin/bash
+current_size=$(gsettings get org.gtk.Settings.FileChooser window-size)
+dunstify "Current FileChooser window size: $current_size" -t 5000 -r 07356
+response=$(echo -e "8x6\n10x6\nRestart Firefox" | dmenu -i -p "Change the File Chooser window size to:")
+case $response in
+	"8x6")
+		new_size="(800, 600)"
+		;;
+	"10x6")
+		new_size="(1000, 600)"
+		;;
+	"Restart Firefox")
+		killall firefox;
+		firefox &
+		exit 0
+		;;
+	*)
+		dunstify "No size change made." -t 2000 -r 07356
+		exit 0
+		;;
+esac
+if [[ "$current_size" == "$new_size" ]]; then
+	dunstify "No size change made." -t 2000 -r 07356
+else
+	gsettings set org.gtk.Settings.FileChooser window-size "$new_size"
+	dunstify "File Chooser window size is now set to $new_size" -t 5000 -r 07356
+fi
