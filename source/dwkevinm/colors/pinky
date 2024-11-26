@@ -1,0 +1,10 @@
+//Pinky
+static const char nmbg[]  = "#19000f";
+static const char nmfg[]  = "#FF009A";
+static const char slbg[]  = "#80004d";
+static const char *colors[][3] = {
+    /*                   fg     bg    border   */
+    [SchemeNorm]     = { nmfg,  nmbg, nmbg },
+    [SchemeSel]      = { nmbg,  slbg, nmbg },
+	 [SchemeTitle]    = { nmfg,  nmbg, nmbg },
+};

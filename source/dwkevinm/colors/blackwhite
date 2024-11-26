@@ -1,0 +1,4 @@
+//BlackWhite
+static const char normbg[]    = "#191919";
+static const char normfg[]    = "#4c4c4c";
+static const char selfg[]     = "#ffffff";

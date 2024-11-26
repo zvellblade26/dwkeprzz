@@ -1,0 +1,4 @@
+//Orange
+static const char nmbg[] = "#191700";
+static const char nmfg[] = "#665b00";
+static const char slfg[] = "#ffe400";
