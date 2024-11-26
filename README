@@ -1,0 +1,20 @@
+Optional leftover packages:
+
+1. system-config-printer
+2. epson-inkjet-printer-201401w
+3. mpv
+
+4. simple-mtpfs -> github
+dep : fuse
+		gcc-libs
+		libmtp
+		autoconf-archive
+step:
+$ ./autogen.sh
+$ mkdir build && cd build
+$ ../configure
+$ make
+$ make install (as root)
+
+5. noto-fonts-emoji
+6. autocpufreq -> github
