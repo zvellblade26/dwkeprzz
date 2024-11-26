@@ -3,8 +3,12 @@ Optional leftover packages:
 1. system-config-printer
 2. epson-inkjet-printer-201401w
 3. mpv
+4. noto-fonts-emoji
+	emoji installation: 
+		run sudo pacman -S noto-fonts-emoji
+		cp 02-emoji.conf to /etc/fonts/conf.d
 
-4. simple-mtpfs -> github
+5. simple-mtpfs -> github
 dep : fuse
 		gcc-libs
 		libmtp
@@ -16,5 +20,4 @@ $ ../configure
 $ make
 $ make install (as root)
 
-5. noto-fonts-emoji
 6. autocpufreq -> github
