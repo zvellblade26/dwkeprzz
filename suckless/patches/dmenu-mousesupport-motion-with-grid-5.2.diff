@@ -1,0 +1,69 @@
+diff --git a/dmenu.c b/dmenu.c
+index 48d4980..7677401 100644
+--- a/dmenu.c
++++ b/dmenu.c
+@@ -641,6 +641,29 @@ buttonpress(XEvent *e)
+ 	}
+ }
+ 
++static void
++motionevent(XButtonEvent *ev)
++{
++    struct item *it;
++    int col_width, row_height;
++    int col, row, index;
++
++    if (ev->window != win || matches == 0)
++        return;
++
++    /* Calculate grid cell dimensions */
++    col_width = mw / columns;
++    row_height = bh;
++
++    /* Determine the column and row of the mouse pointer */
++    col = ev->x / col_width;
++    row = (ev->y - bh) / row_height;
++
++    /* Ensure the mouse position is within the grid area */
++    if (col < 0 || col >= columns || row < 0 || row >= lines)
++        return;
++
++    /* Calculate the index of the hovered item */
++    index = row + col * lines;
++
++    /* Find the corresponding item */
++    it = curr;
++    for (int i = 0; i < index && it; i++) {
++        it = it->right;
++    }
++
++    /* Update selection and redraw if a valid item is found */
++    if (it && it != sel) {
++        sel = it;
++        calcoffsets();
++        drawmenu();
++    }
++}
++
+ static void
+ paste(void)
+ {
+@@ -702,6 +725,9 @@ run(void)
+ 		case ButtonPress:
+ 			buttonpress(&ev);
+ 			break;
++		case MotionNotify:
++			motionevent(&ev.xbutton);
++			break;
+ 		case Expose:
+ 			if (ev.xexpose.count == 0)
+ 				drw_map(drw, win, 0, 0, mw, mh);
+@@ -800,7 +826,7 @@ setup(void)
+ 	swa.override_redirect = True;
+ 	swa.background_pixel = scheme[SchemeNorm][ColBg].pixel;
+ 	swa.event_mask = ExposureMask | KeyPressMask | VisibilityChangeMask |
+-	                 ButtonPressMask;
++	                 ButtonPressMask | PointerMotionMask;
+ 	win = XCreateWindow(dpy, parentwin, x, y, mw, mh, 0,
+ 	                    CopyFromParent, CopyFromParent, CopyFromParent,
+ 	                    CWOverrideRedirect | CWBackPixel | CWEventMask, &swa);
