@@ -3,4 +3,4 @@ case $BLOCK_BUTTON in
 	1) pgtest-sh ping ;;
 	2) pgtest-sh ;;
 esac
-echo " $(nmcli -t -f DEVICE,STATE,CONNECTION device | awk -F: '$1 == "wlp3s0" { print ($2 == "connected" ? $3 : "❌") }')"
+echo " $(nmcli -t -f DEVICE,STATE,CONNECTION device | awk -F: '$1 == "wlp3s0" { print ($2 == "connected" ? $3 : "❌") }')"

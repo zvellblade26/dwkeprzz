@@ -12,8 +12,8 @@ cp "$HOME/.xinitrc" "$dir/xinitrc" && echo "done xinitrc"
 sudo cp -r "$HOME/suckless" "$dir" && echo "done SUCKLESS"
 sudo cp -r "$HOME/.local/bin" "$dir" && echo "Script Backed up"
 cd "$dir"
-sudo zip -mr "$(date +%d-%m,%I:%M).zip" "dotconfig"
-sudo zip -mr "$(date +%d-%m,%I:%M).zip" "suckless"
-sudo zip -mr "$(date +%d-%m,%I:%M).zip" "bin"
-sudo zip -mr "$(date +%d-%m,%I:%M).zip" bashrc xinitrc
+sudo zip -mr "$(date +\(%d\)-%m,%I:%M).zip" "dotconfig"
+sudo zip -mr "$(date +\(%d\)-%m,%I:%M).zip" "suckless"
+sudo zip -mr "$(date +\(%d\)-%m,%I:%M).zip" "bin"
+sudo zip -mr "$(date +\(%d\)-%m,%I:%M).zip" bashrc xinitrc
 echo "Backup completed."

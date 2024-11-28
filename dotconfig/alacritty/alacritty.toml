@@ -15,7 +15,7 @@ title = "Alacritty"
 #option_as_alt = "Both"
 decorations = "Buttonless"
 blur = false
-#opacity = 9
+opacity = 1
 padding.x = 0
 padding.y = 0
 

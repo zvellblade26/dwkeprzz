@@ -22,7 +22,7 @@ get_battery_status() {
         case "$(cat "$STATUS_PATH")" in
             "Charging") echo "" ;;
             "Discharging") echo "󰚦" ;;
-            "Not charging") echo "❌" ;;
+            "Not charging") echo "" ;;
             "Full") echo "⚡" ;;
             *) echo "?" ;;
         esac

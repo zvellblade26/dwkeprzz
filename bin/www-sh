@@ -13,6 +13,7 @@ declare -A bkmarks=(
     ["SISFO"]="https://akademik.uhn.ac.id/?mnux=login&lgn=frm&lid=120&nme=Mahasiswa"
     ["Nerd Fonts"]="https://www.nerdfonts.com/cheat-sheet"
     ["HTML Color Codes"]="https://htmlcolorcodes.com/"
+    ["Git Repo"]="https://github.com/zvellblade26?tab=repositories"
 )
 
 # Prompt user with dmenu and capture selection

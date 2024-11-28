@@ -1,9 +1,9 @@
 #!/bin/bash
 user=$(ls /home)
 faillock --user $user --reset &&
-DWM_DIR="/home/$user/dwkevinm"
-COLORS_DIR="$DWM_DIR/colors"
-COLOR=$(ls "$COLORS_DIR" | dmenu -p "Choose colorscheme:")
+DWM_DIR="/home/$user/suckless/dwm-6.5"
+COLORS_DIR="$DWM_DIR/theme"
+COLOR=$(ls "$COLORS_DIR" | sort | dmenu -p "Choose colorscheme:")
 if [[ -z "$COLOR" ]]; then
   dunstify "No colorscheme selected. Exiting."
   exit 1
@@ -13,11 +13,11 @@ if [[ -z "$PASSWORD" ]]; then
   dunstify "No password entered. Exiting."
   exit 1
 fi
-echo "$PASSWORD" | sudo -S rm -rf "$DWM_DIR/zcolors.h"
+echo "$PASSWORD" | sudo -S rm -rf "$DWM_DIR/themeboy"
 if [[ -f "$COLORS_DIR/$COLOR" ]]; then
-	echo "$PASSWORD" | sudo -S ln -sf "$COLORS_DIR/$COLOR" "$DWM_DIR/zcolors.h"
+	echo "$PASSWORD" | sudo -S ln -sf "$COLORS_DIR/$COLOR" "$DWM_DIR/themeboy"
 else
-	dunstify "Error: Color scheme files not found in $COLORS_DIR or $COLORS_DIR1"
+	dunstify "Error: Color scheme files not found in $COLORS_DIR"
 fi
   dunstify "Links created successfully for $COLOR colorscheme." -r 8081
 cd "$DWM_DIR" || exit
