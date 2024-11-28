@@ -1,17 +1,20 @@
 #!/usr/bin/env bash
 user=$(whoami)
+home="/home/$user"
 eval "$(zoxide init bash)"
+alias l='ls -aFh --color=always' # add colors and file type extensions
 function _zq() {
   if [ -n "$1" ]; then
-    z "$1" && ls
+    z "$1" && l
   else
-    z ~ && ls
+    z ~ && l
   fi
 }
 alias z='_zq'
-alias zi='function _zz(){ zi "$1" && ls; }; _zz'
+alias zi='function _zy(){ zi "$1" && l; }; _zy'
+alias zs="z $home/.local/bin"
 
-export PATH=$PATH:"/home/$user/.local/bin"
+export PATH=$PATH:"$home/.local/bin"
 iatest=$(expr index "$-" i)
 if [[ $iatest -gt 0 ]]; then bind "set completion-ignore-case on"; fi
 if [[ $iatest -gt 0 ]]; then bind "set show-all-if-ambiguous On"; fi
@@ -32,8 +35,10 @@ alias vv="faillock --user $user --reset && sudoedit"
 alias gc="git clone"
 alias ebrc="v ~/.bashrc"
 alias einitrc="v ~/.xinitrc"
-alias mtpfs="simple-mtpfs --device 1 ~/SamsungGalaxyA50/ && cd ~/SamsungGalaxyA50"
+alias mthp="simple-mtpfs --device 1 ~/SamsungGalaxyA50/ && cd ~/SamsungGalaxyA50"
 alias da='date "+%Y-%m-%d %A %T %Z"'
+alias cat="bat"
+
 
 alias cp='cp -rv'
 alias scp='sudo cp -rv'
@@ -48,24 +53,19 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 
-alias ls='ls -aFh --color=always' # add colors and file type extensions
-alias la="ls -Alh"                # show hidden files
-alias ls="ls -aFh --color=always" # add colors and file type extensions
-alias lx="ls -lXBh"               # sort by extension
-alias lk="ls -lSrh"               # sort by size
-alias lc="ls -ltcrh"              # sort by change time
-alias lu="ls -lturh"              # sort by access time
-alias lr="ls -lRh"                # recursive ls
-alias lt="ls -ltrh"               # sort by date
-alias lm="ls -alh |more"          # pipe through 'more'
-alias lw="ls -xAh"                # wide listing format
+cd ()
+{
+	if [ -n "$1" ]; then
+		builtin cd "$@" && ls
+	else
+		builtin cd ~ && ls
+	fi
+}
+
 alias ll="ls -Fls"                # long listing format
-alias labc='ls -lap'              # alphabetical sort
+alias ls="ls -aFh --color=always" # add colors and file type extensions
 alias lf="ls -l | egrep -v '^d'"  # files only
 alias ldir="ls -l | egrep '^d'"   # directories only
-alias lla='ls -Al'                # List and Hidden Files
-alias las='ls -A'                 # Hidden Files
-alias lls='ls -l'                 # List
 
 alias mx='chmod +x'
 
@@ -100,6 +100,6 @@ export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 PS1='\[$(tput setaf 33)\]\w \[$(tput setaf 69)\]\[$(tput setaf 105)\]  \[$(tput setaf 148)\]'
 #        
-zz() {
-	z	"$(find "/home/$user/" -type d \( -name "DATA:D" -or -name "DATA:C" \) -prune -o -type d -print | fzf)"
+zf() {
+	z	"$(find "$home" -type d \( -name "DATA:D" -or -name "DATA:C" \) -prune -o -type d -print | fzf)"
 }

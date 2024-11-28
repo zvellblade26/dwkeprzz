@@ -1,6 +1,6 @@
 #!/bin/sh
 user=$(whoami)
-export DMENU_PATH="/usr/local/bin/"
+export DMENU_PATH="/home/$user/.local/bin/"
 xset r rate 250 60 &
 setxkbmap -option caps:escape &
 feh --bg-fill --randomize "/home/$user/Wallpapers/"* &
