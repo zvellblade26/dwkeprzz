@@ -52,7 +52,7 @@ static XIC xic;
 static Drw *drw;
 static Clr *scheme[SchemeLast];
 
-#include "config.h"
+#include "love.h"
 
 static char * cistrstr(const char *s, const char *sub);
 static int (*fstrncmp)(const char *, const char *, size_t) = strncasecmp;
@@ -188,7 +188,8 @@ drawmenu(void)
 	if (lines > 0) {
 		/* draw vertical list */
 		for (item = curr; item != next; item = item->right)
-			drawitem(item, x - promptw, y += bh, mw);
+			//drawitem(item, x, y += bh, mw - x); /* Normal */
+			drawitem(item, x - promptw, y += bh, mw); /* lines below prompt */
 	} else if (matches) {
 		/* draw horizontal list */
 		x += inputw;

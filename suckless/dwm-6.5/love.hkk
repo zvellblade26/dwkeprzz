@@ -1,5 +1,4 @@
 /* See LICENSE file for copyright and license details. */
-#include "themeboy"
 #include <X11/XF86keysym.h>
 
 /* appearance */
@@ -8,33 +7,32 @@ static const unsigned int snap      = 0;       /* snap pixel default = 26 */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int focusonwheel       = 0;
-static const char *fonts[]          = {
-	"MesloLGL Nerd Font Propo:pixelsize=15:style=Bold Italic:antialias=true:autohint=true",
-};
-
+static const char *fonts[]          = { "MesloLGL Nerd Font Propo:pixelsize=15:style=Bold:antialias=true:autohint=true" };
 #define ICONSIZE bh       /* icon size */
 #define ICONSPACING 10    /* space between icon and title */
 
+static const char nmft[]   = "#82ffff";
+static const char brdr[]   = "#000000";
+static const char ttbg[]   = "#001919";
 
 static const char *colors[][3] = {
-[SchemeNorm]     = { scop, pco, pco },
-[SchemeSel]      = { scoa, aco, pco },
-[SchemeTitle]    = { scop, pco, pco },
-[SchemeStatus]   = { NULL, aco, pco },
-[SchemeUrg]      = { "#ffffff", "#ff0000", "#fffe3e" },
+[SchemeNorm]  = { nmft, ttbg, brdr },
+[SchemeSel]   = { ttbg, nmft, brdr },
+[SchemeTitle] = { NULL, ttbg, brdr },
+[SchemeUrg]  = { "#ffffff", "#ff0000", "#fffe3e" },
 };
 
 static const Block blocks[] = {
-	{ scoa,      "sb-wifi",											        0,		      1 },
-	{ scoa,      "sb-volume",										        0,		      2 },
-	{ scoa,      "echo \"$(date '+%a,(%d)-%m  %I:%M')\"",        60,           3 },
-	{ scoa,      "sb-battery",											     5,	  	      4 },
-	{ scoa,      "sb-cpu",											        0,	  	      0 },
+	{ "#82ffff",      "sb-wifi",											        0,		      1 },
+	{ "#82e8ff",      "sb-volume",										        0,		      2 },
+	{ "#82bdff",      "echo \" $(date '+%a, (%d)-%m  %I:%M')\"",      60,           3 },
+	{ "#8287ff",      "sb-battery",											     5,	  	      4 },
+	{ "#7273ff",      "sb-cpu",											        0,	  	      0 },
 };
 //kill -44 $(pidof dwm)
 //Just add 34 to your typical signal number.
 
-static char delimiter[] = "  ";
+static char delimiter[] = " ";
 #define CMDLENGTH	50
 
 
@@ -80,6 +78,7 @@ static const char *dmenucmd[]         = { "dmenu_run", NULL };
 static const char *termcmd[]          = { "alacritty", NULL };
 static const char *browser[]          = { "firefox", NULL };
 static const char *thunar[]           = { "thunar", NULL };
+static const char *ss[]		           = { "xfce4-screenshooter", NULL };
 
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
@@ -88,11 +87,11 @@ static const Key keys[] = {
 	{ MODKEY,							  XK_space,							spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, 						spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_e,      						spawn,          {.v = thunar } },
+	{ MODKEY|ShiftMask,             XK_s,  						   spawn,          {.v = ss } },
 	{ MODKEY,                       XK_f,      						spawn,          {.v = browser } },
 
-	{ MODKEY|ShiftMask,             XK_s,  						   spawn,          SHCMD("xfce4-screenshooter -r -s \"Pictures/$(date +%d-%m,%I:%M:%S).png\" && dunstify 'screenshoted' -t 1000 -u low") },
-	{ MODKEY,							  XK_Print,  					   spawn,          SHCMD("xfce4-screenshooter -f -s \"Pictures/$(date +%d-%m,%I:%M:%S).png\" && dunstify 'screenshoted' -t 1000 -u low") },
-	{ Mod1Mask,							  XK_space,						   spawn,			 SHCMD("www-sh") },
+
+	{ Mod1Mask,							  XK_g,								spawn,			 SHCMD("www-sh") },
 	{ MODKEY,							  XK_s,								spawn,			 SHCMD("dbrowse-sh") },
 	{ MODKEY|ControlMask,			  XK_p,								spawn,			 SHCMD("pgtest-sh") },
 	{ MODKEY,							  XK_x,      						spawn,          SHCMD("poweropt-sh") },
@@ -125,7 +124,14 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_9,                       8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,            {0} }, //exit DWM
 	{ MODKEY|ControlMask,           XK_m,      setlayout,      {.v = &layouts[0]} },
+	//{ MODKEY|ControlMask,           XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY|ControlMask,           XK_f,      setlayout,      {.v = &layouts[2]} },
+	//{ MODKEY,                       XK_space,  setlayout,      {0} },
+	//{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
+	//{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
+	//{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
+	//{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
+	//{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 };
 
 /* button definitions */

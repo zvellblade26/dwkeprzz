@@ -1039,21 +1039,20 @@ getstatus(int width)
 {
 	int i, len, all = width, delimlen = TEXTW(delimiter) - lrpad;
 	char fgcol[8];
-	const char *cols[8] = 	{ fgcol, colors[SchemeTitle][ColBg] };
-
+	const char *cols[8] = 	{ fgcol, colors[SchemeStatus][ColBg] };
 	for (i = LENGTH(blocks) - 1; i >= 0; i--) {
 		if (*blockoutput[i] == '\0')
 			continue;
 		strncpy(fgcol, blocks[i].color, 8);
-		scheme[SchemeTitle] = drw_scm_create(drw, cols, 3);
-		drw_setscheme(drw, scheme[SchemeTitle]);
+		scheme[SchemeStatus] = drw_scm_create(drw, cols, 3);
+		drw_setscheme(drw, scheme[SchemeStatus]);
 		len = TEXTW(blockoutput[i]) - lrpad;
 		all -= len;
 		drw_text(drw, all, 0, len, bh, 0, blockoutput[i], 0);
 		/* draw delimiter */
 		if (*delimiter == '\0') /* ignore no delimiter */
 			continue;
-		drw_setscheme(drw, scheme[SchemeTitle]);
+		drw_setscheme(drw, scheme[SchemeStatus]);
 		all -= delimlen;
 		drw_text(drw, all, 0, delimlen, bh, 0, delimiter, 0);
 	}

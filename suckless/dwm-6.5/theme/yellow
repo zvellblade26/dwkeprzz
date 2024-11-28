@@ -1,0 +1,4 @@
+static const char pco[]   = "#1C2C2C";
+static const char scop[]  = "#FFFFFE";
+static const char scoa[]  = "#000000";
+static const char aco[]   = "#D3DA25";
